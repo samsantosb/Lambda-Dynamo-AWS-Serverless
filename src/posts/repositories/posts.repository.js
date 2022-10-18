@@ -5,10 +5,18 @@ class PostsRepository {
         this.dynamoDb = dynamoDb;
         this.table = process.env.POSTS_TABLE
     }
-    async getAllPosts() {
-        const params = {
+    async getAllPosts(pages) {
+        let params = {
             TableName: this.table,
+            Limit: pages,
         };
+
+        if (pages === 0 || pages === undefined) {
+            params = {
+                TableName: this.table,
+            };
+        }
+
         const result = await this.dynamoDb.scan(params).promise();
 
         if (result.Item === undefined || result.Item === null) {
