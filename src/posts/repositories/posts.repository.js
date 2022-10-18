@@ -11,7 +11,7 @@ class PostsRepository {
             Limit: pages,
         };
 
-        if (pages === 0 || pages === undefined) {
+        if (pages === 0 || pages === undefined || pages === null) {
             params = {
                 TableName: this.table,
             };
