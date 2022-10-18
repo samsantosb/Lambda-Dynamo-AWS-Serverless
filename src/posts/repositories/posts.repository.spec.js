@@ -11,7 +11,7 @@ describe('PostsRepository', () => {
             const result = await postsRepository.getAllPosts();
             expect(result).toEqual(fakePosts);
         });
-        if ('should return empty array if query is null or undefined', async () => {
+        it('should return empty array if query is null or undefined', async () => {
             fakeDynamoDb.scan.mockImplementationOnce(() => ({
                 promise: jest.fn().mockResolvedValue({
                     Item: null,
@@ -20,6 +20,11 @@ describe('PostsRepository', () => {
             const result = await postsRepository.getAllPosts();
             expect(result).toEqual([]);
         });
+        it('should call the dynamoDb.scan method', async () => {
+            const spy = jest.spyOn(fakeDynamoDb, 'scan');
+            await postsRepository.getAllPosts();
+            expect(spy).toHaveBeenCalled();
+        })
     });
 
     describe('getPostById', () => {
