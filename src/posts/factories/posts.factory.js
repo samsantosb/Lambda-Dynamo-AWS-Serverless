@@ -9,11 +9,7 @@ function postsFactory() {
     const postsService = new PostsService(postsRepository);
     const postsController = new PostsController(postsService);
 
-    return {
-        postsRepository,
-        postsService,
-        postsController
-    }
+    return postsController
 }
 
 const posts = postsFactory();
