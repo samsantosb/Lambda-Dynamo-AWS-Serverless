@@ -3,7 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "serverless-http": "^2.7.0"
+  },
+  "scripts": {
+    "off": "serverless offline",
+    "invoke": "serverless invoke local --function handler",
+    "seed": "node ./src/db/dynamo.seeder.js",
+    "test": "jest",
+    "coverage": "npx jest --coverage"
+  },
+  "devDependencies": {
+    "serverless-jest-plugin": "^0.4.0",
+    "serverless-offline": "^11.1.3"
   }
 }
