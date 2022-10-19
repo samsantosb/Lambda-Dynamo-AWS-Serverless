@@ -21,6 +21,18 @@ describe('PostsController', () => {
             await postsController.getAllPosts(req, res);
             expect(res.status).toHaveBeenCalledWith(StatusCode.OK);
         });
+        it('should return a PromiseError message', async () => {
+            req.query.pages = 1;
+            jest.spyOn(fakePostsService, 'getAllPosts').mockImplementation(() => Promise.resolve({ promiseError: 'Error' }));
+            await postsController.getAllPosts(req, res);
+            expect(res.json).toHaveBeenCalledWith({ promiseError: 'Error' });
+        })
+        it('should return StatusCode.INTERNAL_SERVER_ERROR', async () => {
+            req.query.pages = 1;
+            jest.spyOn(fakePostsService, 'getAllPosts').mockImplementation(() => Promise.resolve({ promiseError: 'Error' }));
+            await postsController.getAllPosts(req, res);
+            expect(res.status).toHaveBeenCalledWith(StatusCode.INTERNAL_SERVER_ERROR);
+        });
         it('should call postsService.getAllPosts', async () => {
             const spy = jest.spyOn(fakePostsService, 'getAllPosts');
             req.query.pages = 1;
@@ -39,6 +51,18 @@ describe('PostsController', () => {
             req.params.id = fakeIds[0];
             await postsController.getPostById(req, res);
             expect(res.status).toHaveBeenCalledWith(StatusCode.OK);
+        });
+        it('should return a promiseError message', async () => {
+            req.params.id = fakeIds[0];
+            jest.spyOn(fakePostsService, 'getPostById').mockImplementation(() => Promise.resolve({ promiseError: 'Error' }));
+            await postsController.getPostById(req, res);
+            expect(res.json).toHaveBeenCalledWith({ promiseError: 'Error' });
+        })
+        it('should return StatusCode.INTERNAL_SERVER_ERROR', async () => {
+            req.params.id = fakeIds[0];
+            jest.spyOn(fakePostsService, 'getPostById').mockImplementation(() => Promise.resolve({ promiseError: 'Error' }));
+            await postsController.getPostById(req, res);
+            expect(res.status).toHaveBeenCalledWith(StatusCode.INTERNAL_SERVER_ERROR);
         });
         it('should call postsService.getPostById', async () => {
             const spy = jest.spyOn(fakePostsService, 'getPostById');
@@ -59,9 +83,20 @@ describe('PostsController', () => {
             await postsController.createPost(req, res);
             expect(res.status).toHaveBeenCalledWith(StatusCode.CREATED);
         });
+        it('should return a promiseError message', async () => {
+            req.apiGateway.event.body = postsForValidation.postThatIsInvalid;
+            jest.spyOn(fakePostsService, 'createPost').mockImplementation(() => Promise.resolve({ promiseError: 'Error' }));
+            await postsController.createPost(req, res);
+            expect(res.json).toHaveBeenCalledWith({ promiseError: 'Error' });
+        })
+        it('should return StatusCode.INTERNAL_SERVER_ERROR', async () => {
+            req.apiGateway.event.body = postsForValidation.postThatIsValid;
+            jest.spyOn(fakePostsService, 'createPost').mockImplementation(() => Promise.resolve({ promiseError: 'Error' }));
+            await postsController.createPost(req, res);
+            expect(res.status).toHaveBeenCalledWith(StatusCode.INTERNAL_SERVER_ERROR);
+        });
         it('should call postsService.createPost', async () => {
             req.apiGateway.event.body = postsForValidation.postThatIsValid;
-            console.log(req.apiGateway.event.body);
             const spy = jest.spyOn(fakePostsService, 'createPost');
             await postsController.createPost(req, res);
             expect(spy).toHaveBeenCalled();
@@ -80,6 +115,20 @@ describe('PostsController', () => {
             req.apiGateway.event.body = postsForValidation.postThatIsValid;
             await postsController.updatePostContent(req, res);
             expect(res.status).toHaveBeenCalledWith(StatusCode.OK);
+        });
+        it('should return a promiseError message', async () => {
+            req.params.id = fakeIds[0];
+            req.apiGateway.event.body = postsForValidation.postThatIsValid;
+            jest.spyOn(fakePostsService, 'updatePostContent').mockImplementation(() => Promise.resolve({ promiseError: 'Error' }));
+            await postsController.updatePostContent(req, res);
+            expect(res.json).toHaveBeenCalledWith({ promiseError: 'Error' });
+        });
+        it('should return StatusCode.INTERNAL_SERVER_ERROR', async () => {
+            req.params.id = fakeIds[0];
+            req.apiGateway.event.body = postsForValidation.postThatIsValid;
+            jest.spyOn(fakePostsService, 'updatePostContent').mockImplementation(() => Promise.resolve({ promiseError: 'Error' }));
+            await postsController.updatePostContent(req, res);
+            expect(res.status).toHaveBeenCalledWith(StatusCode.INTERNAL_SERVER_ERROR);
         });
         it('should call postsService.updatePostContent', async () => {
             req.params.id = fakeIds[0];
@@ -103,6 +152,20 @@ describe('PostsController', () => {
             await postsController.updatePostTitle(req, res);
             expect(res.status).toHaveBeenCalledWith(StatusCode.OK);
         });
+        it('should return a promiseError Message', async () => {
+            req.params.id = fakeIds[0];
+            req.apiGateway.event.body = postsForValidation.postThatIsValid;
+            jest.spyOn(fakePostsService, 'updatePostTitle').mockImplementation(() => Promise.resolve({ promiseError: 'Error' }));
+            await postsController.updatePostTitle(req, res);
+            expect(res.json).toHaveBeenCalledWith({ promiseError: 'Error' });
+        })
+        it('should return StatusCode.INTERNAL_SERVER_ERROR', async () => {
+            req.params.id = fakeIds[0];
+            req.apiGateway.event.body = postsForValidation.postThatIsValid;
+            jest.spyOn(fakePostsService, 'updatePostTitle').mockImplementation(() => Promise.resolve({ promiseError: 'Error' }));
+            await postsController.updatePostTitle(req, res);
+            expect(res.status).toHaveBeenCalledWith(StatusCode.INTERNAL_SERVER_ERROR);
+        });
         it('should call postsService.updatePostTitle', async () => {
             req.params.id = fakeIds[0];
             req.apiGateway.event.body = postsForValidation.postThatIsValid;
@@ -123,6 +186,18 @@ describe('PostsController', () => {
             await postsController.deletePost(req, res);
             expect(res.status).toHaveBeenCalledWith(StatusCode.OK);
         });
+        it('should return a promiseError Message', async () => {
+            req.params.id = fakeIds[0];
+            jest.spyOn(fakePostsService, 'deletePost').mockImplementation(() => Promise.resolve({ promiseError: 'Error' }));
+            await postsController.deletePost(req, res);
+            expect(res.json).toHaveBeenCalledWith({ promiseError: 'Error' });
+        })
+        it('should return StatusCode.INTERNAL_SERVER_ERROR', async () => {
+            req.params.id = fakeIds[0];
+            jest.spyOn(fakePostsService, 'deletePost').mockImplementation(() => Promise.resolve({ promiseError: 'Error' }));
+            await postsController.deletePost(req, res);
+            expect(res.status).toHaveBeenCalledWith(StatusCode.INTERNAL_SERVER_ERROR);
+        });
         it('should call postsService.deletePost', async () => {
             req.params.id = fakeIds[0];
             const spy = jest.spyOn(fakePostsService, 'deletePost');
@@ -130,8 +205,4 @@ describe('PostsController', () => {
             expect(spy).toHaveBeenCalled();
         });
     });
-
-
-
-
 });

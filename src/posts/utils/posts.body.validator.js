@@ -32,19 +32,19 @@ function booleanValidation(data) {
 }
 
 function fieldIsValid(post) {
-    if (smallStringVlidation(post.author) === false) {
+    if (smallStringVlidation(post?.author) === false) {
         return false;
     }
 
-    if (bigStringValidation(post.title) === false) {
+    if (bigStringValidation(post?.title) === false) {
         return false;
     }
 
-    if (bigStringValidation(post.content) === false) {
+    if (bigStringValidation(post?.content) === false) {
         return false;
     }
 
-    if (booleanValidation(post.status) === false) {
+    if (booleanValidation(post?.status) === false) {
         return false;
     }
 
