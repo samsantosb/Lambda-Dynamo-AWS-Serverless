@@ -20,7 +20,7 @@
 
 1. NodeJs
 
-2. Mongo
+2. DynamoDB
 
 3. Jest
 
@@ -40,20 +40,14 @@
 
 1. mocks - Aqui temos mocks/stubs para os testes do serviço principal
 
-2. models - Aqui temos o modelo do banco feito com Mongoose
+2. repositories - Aqui foram armazenados códigos de interação com o banco de dados
 
-3. repositories - Aqui foram armazenados códigos de interação com o banco de dados
+3. services - Aqui estão as funções principais do script
 
-4. services - Aqui estão as funções principais do script
+4. controllers - Aqui temos o controle de fluxo e tratamento de erros https
 
-5. controllers - Aqui temos o controle de fluxo e tratamento de erros https
+5. utils - Aqui encontram-se bibiliotecas/helpers
 
-6. routes - Aqui temos as rotas da aplicação
-
-7. dto - Aqui temos a camada de Data Transfer Object
-
-8. script - Aqui executamos os procedimentos de validação, logging e inserção de dados
-
-9. utils - Aqui encontram-se bibiliotecas/helpers
+6. handlers - Aqui encontra-se a função principal que centraliza o código da Lambda
 
 ## Detalhes
