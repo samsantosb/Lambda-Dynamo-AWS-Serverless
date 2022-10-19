@@ -19,5 +19,10 @@ describe('json validator', () => {
             const result = jsonParser(json);
             expect(result).toEqual({ name: 'John' });
         })
+        it('parsed json should be an object', () => {
+            const json = '{"name":"John"}';
+            const result = jsonParser(json);
+            expect(typeof result).toBe('object');
+        })
     })
 })

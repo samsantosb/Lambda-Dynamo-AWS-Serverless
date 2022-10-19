@@ -93,7 +93,7 @@ class PostsRepository {
                 '#status': 'status',
             },
             ExpressionAttributeValues: {
-                ':status': post.status === false ? false : true,
+                ':status': post.status
             },
             ReturnValues: 'ALL_NEW',
         };

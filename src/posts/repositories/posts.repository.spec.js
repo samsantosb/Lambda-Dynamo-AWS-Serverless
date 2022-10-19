@@ -11,6 +11,10 @@ describe('PostsRepository', () => {
             const result = await postsRepository.getAllPosts();
             expect(result).toEqual(fakePosts);
         });
+        it('should return an array', async () => {
+            const result = await postsRepository.getAllPosts();
+            expect(Array.isArray(result)).toBe(true);
+        });
         it('should return empty array if query is null or undefined', async () => {
             fakeDynamoDb.scan.mockImplementationOnce(() => ({
                 promise: jest.fn().mockResolvedValue({
@@ -32,6 +36,10 @@ describe('PostsRepository', () => {
             const result = await postsRepository.getPostById(fakePosts[0].id);
             expect(result).toEqual(fakePosts[0]);
         });
+        it('should return an object', async () => {
+            const result = await postsRepository.getPostById(fakePosts[0].id);
+            expect(typeof result).toBe('object');
+        });
         it('should return empty object if query is null or undefined', async () => {
             fakeDynamoDb.get.mockImplementationOnce(() => ({
                 promise: jest.fn().mockResolvedValue({
@@ -52,6 +60,10 @@ describe('PostsRepository', () => {
         it('should create a post', async () => {
             const result = await postsRepository.createPost(fakePosts[0]);
             expect(result).toEqual(fakePosts[0]);
+        });
+        it('should return an object', async () => {
+            const result = await postsRepository.createPost(fakePosts[0]);
+            expect(typeof result).toBe('object');
         });
         it('should return empty object if quyery is null or undefined', async () => {
             fakeDynamoDb.put.mockImplementationOnce(() => ({
@@ -75,6 +87,11 @@ describe('PostsRepository', () => {
             const result = await postsRepository.updatePostContent(fakePosts[0].id, post);
             expect(result).toEqual(post);
         });
+        it('should return an object', async () => {
+            const post = fakePosts[1];
+            const result = await postsRepository.updatePostContent(fakePosts[0].id, post);
+            expect(typeof result).toBe('object');
+        });
         it('should return empty object if query is null or undefined', async () => {
             fakeDynamoDb.update.mockImplementationOnce(() => ({
                 promise: jest.fn().mockResolvedValue({
@@ -97,6 +114,11 @@ describe('PostsRepository', () => {
             const result = await postsRepository.updatePostStatus(fakePosts[0].id, post);
             expect(result).toEqual(fakePosts[1]);
         });
+        it('should return an object', async () => {
+            const post = true
+            const result = await postsRepository.updatePostStatus(fakePosts[0].id, post);
+            expect(typeof result).toBe('object');
+        });
         it('should return empty object if query is null or undefined', async () => {
             fakeDynamoDb.update.mockImplementationOnce(() => ({
                 promise: jest.fn().mockResolvedValue({
@@ -117,6 +139,10 @@ describe('PostsRepository', () => {
         it('should delete a post', async () => {
             const result = await postsRepository.deletePost(fakePosts[0].id);
             expect(result).toEqual(fakePosts[0]);
+        });
+        it('should return an object', async () => {
+            const result = await postsRepository.deletePost(fakePosts[0].id);
+            expect(typeof result).toBe('object');
         });
         it('should return empty object, if query is null or undefined', async () => {
             fakeDynamoDb.delete.mockImplementationOnce(() => ({

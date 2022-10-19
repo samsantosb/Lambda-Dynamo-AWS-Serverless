@@ -40,4 +40,7 @@ describe("StatusCode", () => {
     it("should create the status code 504", () => {
         expect(StatusCode.GATEWAY_TIMEOUT).toEqual(504);
     });
+    it('cannot construct Abstract instances directly', () => {
+        expect(() => new StatusCode()).toThrow(TypeError);
+    });
 });

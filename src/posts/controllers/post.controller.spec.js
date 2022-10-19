@@ -95,6 +95,11 @@ describe('PostsController', () => {
             await postsController.createPost(req, res);
             expect(res.status).toHaveBeenCalledWith(StatusCode.INTERNAL_SERVER_ERROR);
         });
+        it('should return StatusCode.BAD_REQUEST if body is incorrect', async () => {
+            req.apiGateway.event.body = postsForValidation.postThatIsInvalid;
+            await postsController.createPost(req, res);
+            expect(res.status).toHaveBeenCalledWith(StatusCode.BAD_REQUEST);
+        });
         it('should call postsService.createPost', async () => {
             req.apiGateway.event.body = postsForValidation.postThatIsValid;
             const spy = jest.spyOn(fakePostsService, 'createPost');
@@ -129,6 +134,12 @@ describe('PostsController', () => {
             jest.spyOn(fakePostsService, 'updatePostContent').mockImplementation(() => Promise.resolve({ promiseError: 'Error' }));
             await postsController.updatePostContent(req, res);
             expect(res.status).toHaveBeenCalledWith(StatusCode.INTERNAL_SERVER_ERROR);
+        });
+        it('should return StatusCode.BAD_REQUEST if body is incorrect', async () => {
+            req.params.id = fakeIds[0];
+            req.apiGateway.event.body = postsForValidation.postThatIsInvalid;
+            await postsController.updatePostContent(req, res);
+            expect(res.status).toHaveBeenCalledWith(StatusCode.BAD_REQUEST);
         });
         it('should call postsService.updatePostContent', async () => {
             req.params.id = fakeIds[0];
@@ -165,6 +176,12 @@ describe('PostsController', () => {
             jest.spyOn(fakePostsService, 'updatePostTitle').mockImplementation(() => Promise.resolve({ promiseError: 'Error' }));
             await postsController.updatePostTitle(req, res);
             expect(res.status).toHaveBeenCalledWith(StatusCode.INTERNAL_SERVER_ERROR);
+        });
+        it('should return StatusCode.BAD_REQUEST if body is incorrect', async () => {
+            req.params.id = fakeIds[0];
+            req.apiGateway.event.body = postsForValidation.postThatIsInvalid;
+            await postsController.updatePostTitle(req, res);
+            expect(res.status).toHaveBeenCalledWith(StatusCode.BAD_REQUEST);
         });
         it('should call postsService.updatePostTitle', async () => {
             req.params.id = fakeIds[0];

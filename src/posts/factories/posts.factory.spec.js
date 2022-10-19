@@ -4,6 +4,9 @@ describe('posts factory', () => {
     it('should be defined', () => {
         expect(posts).toBeDefined();
     });
+    it('should be an object', () => {
+        expect(typeof posts).toBe('object');
+    });
     it('should contain a .getAllPosts method', () => {
         expect(posts.getAllPosts).toBeDefined();
     });

@@ -11,6 +11,10 @@ describe('PostsService', () => {
             const result = await postsService.getAllPosts();
             expect(result).toEqual(fakePosts);
         });
+        it('should return an array', async () => {
+            const result = await postsService.getAllPosts();
+            expect(Array.isArray(result)).toBe(true);
+        });
         it('should call the postsRepository.getAllPosts method', async () => {
             const spy = jest.spyOn(fakePostsRepository, 'getAllPosts');
             await postsService.getAllPosts();
@@ -29,6 +33,10 @@ describe('PostsService', () => {
         it('should return a post by id', async () => {
             const result = await postsService.getPostById(fakeIds[0]);
             expect(result).toEqual(fakePosts[0]);
+        });
+        it('should return an object', async () => {
+            const result = await postsService.getPostById(fakeIds[0]);
+            expect(typeof result).toBe('object');
         });
         it('should call the postsRepository.getPostById method', async () => {
             const spy = jest.spyOn(fakePostsRepository, 'getPostById');
@@ -49,6 +57,10 @@ describe('PostsService', () => {
             const result = await postsService.createPost(fakePosts[0]);
             expect(result).toEqual(fakePosts[0]);
         });
+        it('should return an object', async () => {
+            const result = await postsService.createPost(fakePosts[0]);
+            expect(typeof result).toBe('object');
+        });
         it('should call the postsRepository.createPost method', async () => {
             const spy = jest.spyOn(fakePostsRepository, 'createPost');
             await postsService.createPost(fakePosts[0]);
@@ -67,6 +79,10 @@ describe('PostsService', () => {
         it('should update a post content', async () => {
             const result = await postsService.updatePostContent(fakeIds[0], fakePosts[0]);
             expect(result).toEqual(fakePosts[0]);
+        });
+        it('should return an object', async () => {
+            const result = await postsService.updatePostContent(fakeIds[0], fakePosts[0]);
+            expect(typeof result).toBe('object');
         });
         it('should call the postsRepository.updatePostContent method', async () => {
             const spy = jest.spyOn(fakePostsRepository, 'updatePostContent');
@@ -87,6 +103,10 @@ describe('PostsService', () => {
             const result = await postsService.updatePostTitle(fakeIds[0], fakePosts[0]);
             expect(result).toEqual(fakePosts[1]);
         });
+        it('should return an object', async () => {
+            const result = await postsService.updatePostTitle(fakeIds[0], fakePosts[0]);
+            expect(typeof result).toBe('object');
+        });
         it('should call the postsRepository.updatePostTitle method', async () => {
             const spy = jest.spyOn(fakePostsRepository, 'updatePostTitle');
             await postsService.updatePostTitle(fakeIds[0], fakePosts[0]);
@@ -105,6 +125,10 @@ describe('PostsService', () => {
         it('should delete a post', async () => {
             const result = await postsService.deletePost(fakeIds[0]);
             expect(result).toEqual(fakePosts[0]);
+        });
+        it('should return an object', async () => {
+            const result = await postsService.deletePost(fakeIds[0]);
+            expect(typeof result).toBe('object');
         });
         it('should call the postsRepository.deletePost method', async () => {
             const spy = jest.spyOn(fakePostsRepository, 'deletePost');
