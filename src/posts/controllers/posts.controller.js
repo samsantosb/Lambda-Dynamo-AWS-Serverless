@@ -1,5 +1,6 @@
 const { isPostValid } = require('./../utils/posts.body.validator');
-const { invalidBodyMessage } = require('./../../utils/errorMessages/error.messages');
+const { isJson, jsonParser } = require('./../../utils/jsonValidator/json.validator');
+const { invalidBodyError } = require('./../../utils/errorMessages/error.messages');
 const { StatusCode } = require('./../../utils/statusCode/status.code');
 
 class PostsController {
@@ -28,29 +29,36 @@ class PostsController {
     }
 
     async createPost(req, res) {
-        const post = req.apiGateway.event.body;
+        const rawPost = req.apiGateway.event.body;
 
-        if (!isPostValid(post)) {
-            return res.status(StatusCode.BAD_REQUEST).json(invalidBodyMessage(post));
+        const isPostJson = isJson(rawPost);
+        const parsedPost = isPostJson ? jsonParser(rawPost) : rawPost;
+
+        if (!isPostValid(rawPost)) {
+            return res.status(StatusCode.BAD_REQUEST).json(invalidBodyError(rawPost));
         }
 
-        const createdPost = await this.postsService.createPost(post);
+        const createdPost = await this.postsService.createPost(parsedPost);
 
         if ("promiseError" in createdPost) {
             return res.status(StatusCode.INTERNAL_SERVER_ERROR).json(createdPost);
         }
+
         return res.status(StatusCode.CREATED).json(createdPost);
     }
 
     async updatePostContent(req, res) {
         const id = req.params.id;
-        const post = req.apiGateway.event.body;
+        const rawPost = req.apiGateway.event.body;
 
-        if (!invalidPost(post)) {
-            return res.status(StatusCode.BAD_REQUEST).json(invalidBodyMessage(post));
+        const isPostJson = isJson(rawPost);
+        const parsedPost = isPostJson ? jsonParser(rawPost) : rawPost;
+
+        if (!isPostValid(rawPost)) {
+            return res.status(StatusCode.BAD_REQUEST).json(invalidBodyError(rawPost));
         }
 
-        const updatedPost = await this.postsService.updatePostContent(id, post);
+        const updatedPost = await this.postsService.updatePostContent(id, parsedPost);
 
         if ("promiseError" in updatedPost) {
             return res.status(StatusCode.INTERNAL_SERVER_ERROR).json(updatedPost);
@@ -60,13 +68,16 @@ class PostsController {
 
     async updatePostTitle(req, res) {
         const id = req.params.id;
-        const status = req.apiGateway.event.body;
+        const rawPost = req.apiGateway.event.body;
 
-        if (!invalidPost(post)) {
-            return res.status(StatusCode.BAD_REQUEST).json(invalidBodyMessage(status));
+        const isPostJson = isJson(rawPost);
+        const parsedPost = isPostJson ? jsonParser(rawPost) : rawPost;
+
+        if (!isPostValid(rawPost)) {
+            return res.status(StatusCode.BAD_REQUEST).json(invalidBodyError(rawPost));
         }
 
-        const updatedPost = await this.postsService.updatePostTitle(id, post);
+        const updatedPost = await this.postsService.updatePostTitle(id, parsedPost);
 
         if ("promiseError" in updatedPost) {
             return res.status(StatusCode.INTERNAL_SERVER_ERROR).json(updatedPost);

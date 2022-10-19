@@ -7,4 +7,8 @@ function isJson(obj) {
     return true;
 }
 
-module.exports = { isJson };
+function jsonParser(obj) {
+    return JSON.parse(obj);
+}
+
+module.exports = { isJson, jsonParser };

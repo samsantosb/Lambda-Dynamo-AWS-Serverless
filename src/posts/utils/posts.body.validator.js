@@ -1,4 +1,4 @@
-const { isJson } = require("./../..//utils/jsonValidator/json.validator");
+const { isJson } = require("./../../utils/jsonValidator/json.validator");
 
 function smallStringVlidation(data) {
     if (typeof data === "string" &&
@@ -67,8 +67,11 @@ function isBodyValid(post) {
 }
 
 function isPostValid(post) {
-    if (fieldIsValid(post)) {
-        return isBodyValid(post);
+    const isPostJson = isJson(post);
+    const parsedPost = isPostJson ? JSON.parse(post) : post;
+
+    if (fieldIsValid(parsedPost)) {
+        return isBodyValid(parsedPost);
     }
 
     return false;
